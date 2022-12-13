@@ -1,26 +1,44 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <signature-form @signature-submit="storeSignature"></signature-form>
+  <signature-submit :results="savedSignatureResult"></signature-submit>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import SignatureForm from "./components/signature/SignatureForm.vue";
+import SignatureSubmit from "./components/signature/SignatureSubmit.vue";
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    SignatureForm,
+    SignatureSubmit,
+  },
+  data() {
+    return {
+      savedSignatureResult: [],
+    };
+  },
+  methods: {
+    storeSignature(signatureData) {
+      const signatureResult = {
+        signature: signatureData.signature,
+        id: new Date().toISOString(),
+      };
+      this.savedSignatureResult.unshift(signatureData);
+      console.log(signatureResult);
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
 }
 </style>
